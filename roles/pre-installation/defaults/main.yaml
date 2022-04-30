@@ -1,0 +1,4 @@
+# Установка необходимых пакетов для OpenSUSE:
+
+opensuse_packages_list:
+  - python3-pip

@@ -1,0 +1,14 @@
+---
+  - name: Update all packages on OpenSUSE
+    zypper:
+      name: '*'
+      state: latest
+      update_cache: yes
+    tags: package
+
+  - name: Installing required packages on OpenSUSE
+    zypper: 
+      name: "{{ opensuse_packages_list }}"
+      state: latest
+      update_cache: yes
+    tags: package
