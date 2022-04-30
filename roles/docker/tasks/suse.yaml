@@ -1,0 +1,37 @@
+---
+  - name: Installing Docker on OpenSUSE
+    zypper: 
+      name: docker
+      state: latest
+    tags: docker
+
+  - name: Starting Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    tags: docker
+
+  - name: Check if Docker is working now
+    command: systemctl status docker
+    register: command_output
+  - debug:
+      var: command_output.stdout_lines
+    tags: docker
+
+  - name: Check if Docker-compose is installed on OpenSUSE
+    command: docker-compose --version
+    register: docker_compose_check
+    ignore_errors: true
+    tags: docker
+
+  - name: Installing docker-compose on OpenSUSE
+    get_url: 
+      url : "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-x86_64"
+      dest: "{{ docker_compose_dest }}"
+      mode: 'a+x'
+      force: yes
+    when:
+      - docker_compose_check.msg is defined
+      - docker_compose_check.msg.find('No such file or directory') != -1
+    tags: docker
