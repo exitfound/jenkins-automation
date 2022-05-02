@@ -1,8 +1,8 @@
 ---
-- name: Installing and configuring Docker and Docker-compose on OpenSUSE
+- name: Installing and configuring Docker and Docker-compose on remote host
   gather_facts: yes
   hosts: 
-    - opensuse
+    - all
   roles:
     - docker
   tags: docker

@@ -1,5 +1,5 @@
 ---
-- name: Installing based prepackages on endpoint
+- name: Installing based prepackages on remote host
   gather_facts: yes
   hosts: 
     - all
