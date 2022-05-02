@@ -2,3 +2,7 @@
 
 opensuse_packages_list:
   - python3-pip
+  - curl
+opensuse_pip_list:
+  - docker
+  - docker-compose

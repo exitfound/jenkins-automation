@@ -12,3 +12,8 @@
       state: latest
       update_cache: yes
     tags: package
+
+  - name: Installing Docker package for pip on OpenSUSE
+    pip:
+      name: "{{ opensuse_pip_list }}"
+    tags: package

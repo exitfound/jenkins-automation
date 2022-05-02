@@ -2,7 +2,7 @@
 - name: Installing based prepackages for OpenSUSE
   gather_facts: yes
   hosts: 
-    - opensuse
+    - all
   roles:
     - pre-installation
   tags: package
