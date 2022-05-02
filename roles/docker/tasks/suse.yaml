@@ -27,8 +27,8 @@
 
   - name: Installing docker-compose on OpenSUSE
     get_url: 
-      url : "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-x86_64"
-      dest: "{{ docker_compose_dest }}"
+      url : "https://github.com/docker/compose/releases/download/{{ opensuse_compose_version }}/docker-compose-linux-x86_64"
+      dest: "{{ opensuse_compose_dest }}"
       mode: 'a+x'
       force: yes
     when:

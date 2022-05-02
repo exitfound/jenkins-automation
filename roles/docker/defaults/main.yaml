@@ -1,14 +1,6 @@
----
-
 # Переменные для установки Docker-compose на OpenSUSE:
-docker_compose_version: v2.4.1
-docker_compose_dest: /usr/bin/docker-compose
 
+opensuse_compose_version: v2.4.1
+opensuse_compose_dest: /usr/bin/docker-compose
 
-
-# # Для роли Docker
-# docker_repo_url: https://download.docker.com/linux/centos/docker-ce.repo
-# docker_repo_dest: /etc/yum.repos.d/docer-ce.repo
-# docker_pip:
-#   - docker
-#   - docker-compose
+# Переменные для установки Docker-compose на CentOS:
