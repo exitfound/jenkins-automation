@@ -1,5 +1,5 @@
 ---
-- name: Installing based prepackages for OpenSUSE
+- name: Installing based prepackages on endpoint
   gather_facts: yes
   hosts: 
     - all
