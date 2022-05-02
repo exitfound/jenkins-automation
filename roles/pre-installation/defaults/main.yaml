@@ -6,3 +6,5 @@ opensuse_packages_list:
 opensuse_pip_list:
   - docker
   - docker-compose
+
+# Установка необходимых пакетов для CentOS:
