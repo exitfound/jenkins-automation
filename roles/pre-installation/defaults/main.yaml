@@ -1,4 +1,4 @@
-# Установка необходимых пакетов для OpenSUSE:
+# Переменные для установки необходимых пакетов на OpenSUSE:
 
 opensuse_packages_list:
   - python3-pip
@@ -7,4 +7,4 @@ opensuse_pip_list:
   - docker
   - docker-compose
 
-# Установка необходимых пакетов для CentOS:
+# Переменные для установки необходимых пакетов на CentOS:

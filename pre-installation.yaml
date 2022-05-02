@@ -1,4 +1,5 @@
 ---
+# Вызов роли по предустановке для настройки базовых компонентов на удаленном узле.
 - name: Installing based prepackages on remote host
   gather_facts: yes
   hosts: 
