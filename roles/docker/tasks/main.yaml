@@ -1,16 +1,20 @@
 ---
+# Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства Debian.
 - include: debian.yaml
   when: ansible_os_family == 'Debian'
   tags: docker
 
+# Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства RedHat.
 - include: redhat.yaml
   when: ansible_os_family == 'RedHat'
   tags: docker
 
+# Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства RedHat.
 - include: centos.yaml
   when: ansible_os_family == 'RedHat'
   tags: docker
 
+# Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства SUSE.
 - include: suse.yaml
   when: ansible_os_family == 'Suse'
   tags: docker

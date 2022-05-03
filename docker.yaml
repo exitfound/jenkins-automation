@@ -1,4 +1,5 @@
 ---
+# Вызов роли по установке Docker и Docker-compose на удаленном узле.
 - name: Installing and configuring Docker and Docker-compose on remote host
   gather_facts: yes
   hosts: 
