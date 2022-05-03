@@ -5,5 +5,7 @@
   hosts: 
     - all
   roles:
+    - pre-installation
+    - docker
     - jenkins
   tags: jenkins

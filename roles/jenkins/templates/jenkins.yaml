@@ -1,15 +1,18 @@
 jenkins:
+
   securityRealm:
     local:
       allowsSignup: false
       users:
        - id: ${JENKINS_USER}
          password: ${JENKINS_PASS}
+
   authorizationStrategy:
     projectMatrix:
       permissions:
         - "Overall/Administer:admin"
         - "Overall/Read:authenticated"
+
   remotingSecurity:
     enabled: true
 
@@ -17,4 +20,4 @@ security:
   queueItemAuthenticator:
     authenticators:
     - global:
-        strategy: "triggeringUsersAuthorizationStrategy"
+        strategy: triggeringUsersAuthorizationStrategy

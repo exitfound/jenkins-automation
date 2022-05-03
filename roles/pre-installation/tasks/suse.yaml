@@ -3,7 +3,7 @@
   - name: Update all packages on OpenSUSE
     zypper:
       name: '*'
-      state: present
+      state: latest
       update_cache: yes
     tags: package
 

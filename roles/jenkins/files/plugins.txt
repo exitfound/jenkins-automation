@@ -18,7 +18,7 @@ job-dsl:1.79
 ldap:2.9
 mailer:414.vcc4c33714601
 matrix-auth:3.1.2
-matrix-project:771.v574584b_39e60
+matrix-project:758.v7a_ea_491852f3
 maven-plugin:3.18
 metrics:4.1.6.2
 favorite:2.4.1
