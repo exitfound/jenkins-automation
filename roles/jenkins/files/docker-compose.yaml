@@ -1,0 +1,26 @@
+version: '3.5'
+services:
+  jenkins:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: jenkins:local
+    container_name: jenkins
+    user: "${UID}:${GID}"
+    environment:
+      JENKINS_USER: admin
+      JENKINS_PASS: Lekain1997
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - /opt/jenkins_config:/var/jenkins_config/
+      - /opt/jenkins_data:/var/jenkins_home
+    networks:
+      - jenkins
+    restart: always
+
+networks:
+  jenkins:
+    name: jenkins
+    driver: bridge

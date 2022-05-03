@@ -1,0 +1,9 @@
+---
+# Вызов роли по установке Jenkins на удаленном узле.
+- name: Installing and configuring Jenkins on remote host
+  gather_facts: yes
+  hosts: 
+    - all
+  roles:
+    - jenkins
+  tags: jenkins

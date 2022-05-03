@@ -1,0 +1,67 @@
+---
+  # Создание директории для хранения данных и конфигурации Jenkins.
+  - name: Create Jenkins directory on OpenSUSE
+    file:
+      state: directory
+      path: "{{ item.path }}"
+      mode: "{{ opensuse_jenkins_mode_dir }}"
+      owner: "1000"
+      group: "1000"
+    with_items:
+      - { path: "{{ opensuse_jenkins_data_dir }}" }
+      - { path: "{{ opensuse_jenkins_config_dir }}" }
+    tags: jenkins
+
+  # Копируем файлы из директории files в репозитории и передаем их в директорию jenkins_config.
+  - name: Copy docker files in directory jenkins_config on OpenSUSE
+    copy:
+      src: files/
+      dest: "{{ opensuse_jenkins_config_dir }}"
+      mode: "{{ opensuse_jenkins_mode_dir }}"
+      owner: "1000"
+      group: "1000"
+    tags: jenkins
+
+  # Копируем файлы из директории templates в репозитории и передаем их в директорию jenkins_config.
+  - name: Copy template jenkins.yaml in directory jenkins_config on OpenSUSE
+    template:
+      src: templates/jenkins.yaml
+      dest: "{{ opensuse_jenkins_config_dir }}/jenkins.yaml"
+      mode: "{{ opensuse_jenkins_mode_dir }}"
+      owner: "1000"
+      group: "1000"
+    tags: jenkins
+
+  # Пул образа Jenkins с Docker Hub на удаленном хосте.
+  - name: Pull the Jenkins docker image on OpenSUSE from Docker Hub
+    docker_image:
+      name: "{{ opensuse_jenkins_image }}"
+    tags: jenkins
+
+  # Запуск Docker-compose на удаленном хосте.
+  - name: Run Jenkins via docker-compose on OpenSUSE
+    docker_compose:
+      project_src: "{{ opensuse_jenkins_config_dir }}"
+      build: yes
+    register: output
+  - debug:
+      var: output
+    tags: jenkins
+
+  # Опциональные задачи: Дело в том, что при каждом прогоне через Ansible создается новый образ Jenkins, при этом старые не удаляются сами по себе.
+  # Задачи, описанные ниже, решают данную проблему. Это было нужно мне, но не факт, что понадобится вам.
+
+  # - name: Get details of all images on OpenSUSE
+  #   docker_host_info:
+  #     images: yes
+  #     verbose_output: yes
+  #   register: image_info
+  #   tags: jenkins
+
+  # - name: Remove all unused images on OpenSUSE
+  #   docker_image:
+  #     name: "{{ item }}"
+  #     state: absent
+  #   with_items: "{{ image_info.images | map(attribute='Id') | list }}"
+  #   ignore_errors: true
+  #   tags: jenkins
