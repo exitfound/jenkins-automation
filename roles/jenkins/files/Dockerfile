@@ -21,6 +21,7 @@ RUN mkdir -p /var/jenkins_config/ \
 
 USER jenkins
 
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
 ENV CASC_JENKINS_CONFIG=/var/jenkins_config/jenkins.yaml
 
 COPY --chown=jenkins:jenkins plugins.txt /var/jenkins_config/

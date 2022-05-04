@@ -21,3 +21,7 @@ security:
     authenticators:
     - global:
         strategy: triggeringUsersAuthorizationStrategy
+
+unclassified:
+  location:
+    url: "{{ jenkins_url }}"

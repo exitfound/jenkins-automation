@@ -2,6 +2,6 @@
 
 domain: 
 email: 
-token_gitlab: 
-gitlab: https://gitlab.com/
-jenkins_location: http://suse.kitezh.one:8080/jenkins/
+jenkins_gitlab_token: 
+jenkins_gitlab_url: https://gitlab.com/
+jenkins_url: http://suse.kitezh.one:8080/jenkins/
