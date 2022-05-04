@@ -1,12 +1,13 @@
 ---
-  # Установка Docker на дистрибутив OpenSUSE.
+  # Установка Docker на дистрибутиве OpenSUSE.
   - name: Installing Docker on OpenSUSE
     zypper: 
       name: docker
       state: latest
+      update_cache: yes
     tags: docker
 
-  # Запуск сервиса Docker на дистрибутив OpenSUSE.
+  # Запуск сервиса Docker на дистрибутиве OpenSUSE.
   - name: Starting Docker service
     service:
       name: docker
@@ -14,7 +15,7 @@
       enabled: yes
     tags: docker
 
-  # Проверка того, был ли запущен Docker на дистрибутив OpenSUSE.
+  # Проверка того, был ли запущен docker.service на дистрибутиве OpenSUSE.
   - name: Check if Docker is working now
     command: systemctl status docker
     register: command_output
@@ -22,14 +23,14 @@
       var: command_output.stdout_lines
     tags: docker
 
-  # Проверка того, установлен ли Docker-compose на дистрибутив OpenSUSE.
+  # Проверка того, установлен ли Docker-compose на дистрибутиве OpenSUSE.
   - name: Check if Docker-compose is installed on OpenSUSE
     command: docker-compose --version
     register: docker_compose_check
     ignore_errors: true
     tags: docker
 
-  # Установка Docker-compose в случае его отсуствия в системе.
+  # Установка Docker-compose в случае его отсуствия на дистрибутиве OpenSUSE.
   - name: Installing docker-compose on OpenSUSE
     get_url: 
       url : "https://github.com/docker/compose/releases/download/{{ opensuse_compose_version }}/docker-compose-linux-x86_64"

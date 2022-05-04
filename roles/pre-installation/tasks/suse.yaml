@@ -7,7 +7,7 @@
       update_cache: yes
     tags: package
 
-  # Установка пакетов rpm из списка необходимых, которые определены в виде переменной в директории defaults.
+  # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages on OpenSUSE
     zypper: 
       name: "{{ opensuse_packages_list }}"
@@ -15,7 +15,7 @@
       update_cache: yes
     tags: package
 
-  # Установка пакетов pip из списка необходимых, которые определены в виде переменной в директории defaults.
+  # Установка пакетов pip из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required package for pip on OpenSUSE
     pip:
       name: "{{ opensuse_pip_list }}"

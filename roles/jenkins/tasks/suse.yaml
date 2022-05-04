@@ -12,7 +12,7 @@
       - { path: "{{ opensuse_jenkins_config_dir }}" }
     tags: jenkins
 
-  # Копируем файлы из директории files в репозитории и передаем их в директорию jenkins_config.
+  # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
   - name: Copy docker files in directory jenkins_config on OpenSUSE
     copy:
       src: files/
@@ -22,7 +22,7 @@
       group: "1000"
     tags: jenkins
 
-  # Копируем файлы из директории templates в репозитории и передаем их в директорию jenkins_config.
+  # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
   - name: Copy template jenkins.yaml in directory jenkins_config on OpenSUSE
     template:
       src: templates/jenkins.yaml
