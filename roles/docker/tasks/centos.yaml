@@ -1,0 +1,60 @@
+---
+  # - name: Active routing for build docker image on Centos 8
+  #   shell: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
+  #   tags: centos
+
+  # Создание группы docker на дистрибутиве Centos 8.
+  - name: Ensure group "docker" exists on Centos 8
+    group:
+      name: docker
+      state: present
+    tags: centos
+
+  # Добавление репозитория для последующей установки Docker на дистрибутиве CentOS 8.
+  - name: Add Docker repository to Centos 8
+    get_url:
+      url: "{{ centos_docker_repo_url }}"
+      dest: "{{ centos_docker_repo_dest }}"
+    tags: centos
+
+  # Установка Docker на дистрибутиве CentOS 8.
+  - name: Install Docker on Centos 8
+    dnf: 
+      name: docker-ce
+      state: latest
+    tags: centos
+
+  # Запуск Docker на дистрибутиве CentOS 8.
+  - name: Start Docker service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+    tags: centos
+
+  # Проверка того, запущен ли Docker в системе.
+  - name: Check if Docker is working now
+    command: systemctl status docker
+    register: command_output
+  - debug:
+      var: command_output.stdout_lines
+    tags: centos
+
+  # Проверка того, установлен ли Docker-compose на дистрибутиве CentOS 8.
+  - name: Check if Docker Compose is installed on Centos 8
+    command: "{{ centos_compose_dest }} --version"
+    register: docker_compose_check
+    ignore_errors: true
+    tags: centos
+
+  # Установка Docker-compose в случае его отсуствия на дистрибутиве CentOS 8.
+  - name: Install docker-compose on Centos 8
+    get_url: 
+      url : "https://github.com/docker/compose/releases/download/{{ centos_compose_version }}/docker-compose-linux-x86_64"
+      dest: "{{ centos_compose_dest }}"
+      mode: 'a+x'
+      force: yes
+    when:
+      - docker_compose_check.msg is defined
+      - docker_compose_check.msg.find('No such file or directory') != -1
+    tags: centos
