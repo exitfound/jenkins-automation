@@ -3,8 +3,20 @@
 opensuse_packages_list:
   - python3-pip
   - curl
+  - wget
 opensuse_pip_list:
   - docker
   - docker-compose
 
 # Переменные для установки необходимых пакетов на CentOS:
+
+centos_packages_list:
+  - bash-completion
+  - epel-release
+  - curl
+  - python3-pip
+  - yum-utils
+  - wget
+centos_pip_list:
+  - docker
+  - docker-compose

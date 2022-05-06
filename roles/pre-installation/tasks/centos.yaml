@@ -1,0 +1,28 @@
+---
+  # Обновление всех пакетов на дистрибутиве Centos 8.
+  - name: Upgrade all packages on Centos 8
+    dnf:
+      name: '*'
+      state: latest
+      update_cache: yes
+    tags: centos
+
+  # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
+  - name: Install base packages on Centos 8
+    dnf: 
+      name: "{{ centos_packages_list }}"
+      state: latest
+      update_cache: yes
+    tags: centos
+
+  # Установка пакетов pip из списка необходимых, которые определены в виде переменной, в директории defaults.
+  - name: Installing required package for pip on Centos 8
+    pip:
+      name: "{{ centos_pip_list }}"
+      state: latest
+    tags: centos
+
+  # Добавление автодополнения для удобной работы.
+  - name: Activate autocomplete bash on Centos 8
+    shell: source /etc/profile.d/bash_completion.sh
+    tags: centos
