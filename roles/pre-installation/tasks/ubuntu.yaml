@@ -1,0 +1,22 @@
+---
+  # Обновление всех пакетов на дистрибутиве Ubuntu.
+  - name: Update all packages on Ubuntu
+    apt:
+      name: '*'
+      state: latest
+      update_cache: yes
+    tags: ubuntu
+
+  # Установка пакетов apt из списка необходимых, которые определены в виде переменной, в директории defaults.
+  - name: Installing required packages on Ubuntu
+    apt: 
+      name: "{{ ubuntu_packages_list }}"
+      state: latest
+      update_cache: yes
+    tags: ubuntu
+
+  # Установка пакетов apt из списка необходимых, которые определены в виде переменной, в директории defaults.
+  - name: Installing required package for pip on Ubuntu
+    pip:
+      name: "{{ ubuntu_pip_list }}"
+    tags: ubuntu

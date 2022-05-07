@@ -20,3 +20,13 @@ centos_packages_list:
 centos_pip_list:
   - docker
   - docker-compose
+
+# Переменные для установки необходимых пакетов на Ubuntu:
+
+ubuntu_packages_list:
+  - python3-pip
+  - curl
+  - wget
+ubuntu_pip_list:
+  - docker
+  - docker-compose
