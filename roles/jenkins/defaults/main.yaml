@@ -6,3 +6,15 @@ opensuse_jenkins_mode_dir: u=rw,g=rw,o=r
 opensuse_jenkins_image: jenkins/jenkins:lts-jdk11
 
 # Переменные для конфигурации Jenkins на CentOS:
+
+centos_jenkins_data_dir: /opt/jenkins_data
+centos_jenkins_config_dir: /opt/jenkins_config
+centos_jenkins_mode_dir: u=rw,g=rw,o=r
+centos_jenkins_image: jenkins/jenkins:lts-jdk11
+
+# Переменные для конфигурации Jenkins на Ubuntu:
+
+ubuntu_jenkins_data_dir: /opt/jenkins_data
+ubuntu_jenkins_config_dir: /opt/jenkins_config
+ubuntu_jenkins_mode_dir: u=rw,g=rw,o=r
+ubuntu_jenkins_image: jenkins/jenkins:lts-jdk11

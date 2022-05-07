@@ -1,66 +1,66 @@
 ---
   # Создание директории для хранения данных и конфигурации Jenkins.
-  - name: Create Jenkins directory on OpenSUSE
+  - name: Create Jenkins directory on Centos 8
     file:
       state: directory
       path: "{{ item.path }}"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
+      mode: "{{ centos_jenkins_mode_dir }}"
       owner: "1000"
       group: "1000"
     with_items:
-      - { path: "{{ opensuse_jenkins_data_dir }}" }
-      - { path: "{{ opensuse_jenkins_config_dir }}" }
-    tags: suse
+      - { path: "{{ centos_jenkins_data_dir }}" }
+      - { path: "{{ centos_jenkins_config_dir }}" }
+    tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
-  - name: Copy docker files in directory jenkins_config on OpenSUSE
+  - name: Copy docker files in directory jenkins_config on Centos 8
     copy:
       src: files/
-      dest: "{{ opensuse_jenkins_config_dir }}"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
+      dest: "{{ centos_jenkins_config_dir }}"
+      mode: "{{ centos_jenkins_mode_dir }}"
       owner: "1000"
       group: "1000"
-    tags: suse
+    tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
-  - name: Copy template jenkins.yaml in directory jenkins_config on OpenSUSE
+  - name: Copy template jenkins.yaml in directory jenkins_config on CentOS
     template:
       src: templates/jenkins.yaml
-      dest: "{{ opensuse_jenkins_config_dir }}/jenkins.yaml"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
+      dest: "{{ centos_jenkins_config_dir }}/jenkins.yaml"
+      mode: "{{ centos_jenkins_mode_dir }}"
       owner: "1000"
       group: "1000"
-    tags: suse
+    tags: centos
 
   # Пул образа Jenkins с Docker Hub на удаленном хосте.
-  - name: Pull the Jenkins docker image on OpenSUSE from Docker Hub
+  - name: Pull the Jenkins docker image from Docker Hub on Centos 8
     docker_image:
-      name: "{{ opensuse_jenkins_image }}"
-    tags: suse
+      name: "{{ centos_jenkins_image }}"
+    tags: centos
 
   # Запуск Docker-compose на удаленном хосте.
-  - name: Run Jenkins via docker-compose on OpenSUSE
+  - name: Run Jenkins via docker-compose on Centos 8
     docker_compose:
       build: yes
       files: jenkins-docker-compose.yaml
-      project_src: "{{ opensuse_jenkins_config_dir }}"
+      project_src: "{{ centos_jenkins_config_dir }}"
       recreate: always
     register: output
   - debug:
       var: output
-    tags: suse
+    tags: centos
 
   # Опциональные задачи: Дело в том, что при каждом прогоне через Ansible создается новый образ (если были изменения в Dockerfile), при этом старые не удаляются сами по себе.
   # Задачи, описанные ниже, решают данную проблему. Это было нужно мне, пока я занимался отладкой, но не факт, что понадобится вам.
 
-  # - name: Get details of all images on OpenSUSE
+  # - name: Get details of all images on CentOS 8
   #   docker_host_info:
   #     images: yes
   #     verbose_output: yes
   #   register: image_info
   #   tags: jenkins
 
-  # - name: Remove all unused images on OpenSUSE
+  # - name: Remove all unused images on CentOS 8
   #   docker_image:
   #     name: "{{ item }}"
   #     state: absent
