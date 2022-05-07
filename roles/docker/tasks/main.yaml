@@ -1,6 +1,6 @@
 ---
 # Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства Debian.
-- include_tasks: debian.yaml
+- include_tasks: ubuntu.yaml
   when: ansible_os_family == 'Debian'
   tags: docker
 

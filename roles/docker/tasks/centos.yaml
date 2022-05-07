@@ -25,7 +25,7 @@
     tags: centos
 
   # Запуск Docker на дистрибутиве CentOS 8.
-  - name: Start Docker service
+  - name: Start Docker service on Centos 8
     service:
       name: docker
       state: started
