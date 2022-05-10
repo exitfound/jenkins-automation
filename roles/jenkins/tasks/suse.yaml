@@ -1,49 +1,65 @@
 ---
+  # # Проверка того, необходимо ли запустить роль Docker на дистрибутиве OpenSUSE.
+  # - name: Check if Docker is installed on OpenSUSE
+  #   command: "{{ jenkins_check_docker }}"
+  #   register: docker_check
+  #   ignore_errors: true
+  #   tags: suse
+
+  # # Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на дистрибутиве OpenSUSE.
+  # - name: Installing Docker on OpenSUSE before Jenkins
+  #   include_role:
+  #     name: docker
+  #     tasks_from: suse.yaml
+  #   when:
+  #     - docker_check.msg is defined
+  #   tags: suse
+
   # Создание директории для хранения данных и конфигурации Jenkins.
   - name: Create Jenkins directory on OpenSUSE
     file:
       state: directory
       path: "{{ item.path }}"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     with_items:
-      - { path: "{{ opensuse_jenkins_data_dir }}" }
-      - { path: "{{ opensuse_jenkins_config_dir }}" }
+      - { path: "{{ jenkins_data_dir }}" }
+      - { path: "{{ jenkins_config_dir }}" }
     tags: suse
 
   # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
   - name: Copy docker files in directory jenkins_config on OpenSUSE
     copy:
       src: files/
-      dest: "{{ opensuse_jenkins_config_dir }}"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: suse
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
   - name: Copy template jenkins.yaml in directory jenkins_config on OpenSUSE
     template:
       src: templates/jenkins.yaml
-      dest: "{{ opensuse_jenkins_config_dir }}/jenkins.yaml"
-      mode: "{{ opensuse_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}/jenkins.yaml"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: suse
 
   # Пул образа Jenkins с Docker Hub на удаленном хосте.
   - name: Pull the Jenkins docker image on OpenSUSE from Docker Hub
     docker_image:
-      name: "{{ opensuse_jenkins_image }}"
+      name: "{{ jenkins_image }}"
     tags: suse
 
   # Запуск Docker-compose на удаленном хосте.
   - name: Run Jenkins via docker-compose on OpenSUSE
     docker_compose:
       build: yes
-      files: jenkins-docker-compose.yaml
-      project_src: "{{ opensuse_jenkins_config_dir }}"
+      files: "{{ jenkins_file_compose }}"
+      project_src: "{{ jenkins_config_dir }}"
       recreate: always
     register: output
   - debug:
@@ -58,7 +74,7 @@
   #     images: yes
   #     verbose_output: yes
   #   register: image_info
-  #   tags: jenkins
+  #   tags: suse
 
   # - name: Remove all unused images on OpenSUSE
   #   docker_image:
@@ -66,4 +82,4 @@
   #     state: absent
   #   with_items: "{{ image_info.images | map(attribute='Id') | list }}"
   #   ignore_errors: true
-  #   tags: jenkins
+  #   tags: suse

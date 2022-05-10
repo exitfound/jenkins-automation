@@ -1,41 +1,57 @@
 ---
+  # # Проверка того, необходимо ли запустить роль Docker на дистрибутиве Ubuntu.
+  # - name: Check if Docker is installed on Ubuntu
+  #   command: "{{ jenkins_check_docker }}"
+  #   register: docker_check
+  #   ignore_errors: true
+  #   tags: ubuntu
+
+  # # Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на дистрибутиве Ubuntu.
+  # - name: Installing Docker on Ubuntu before Jenkins
+  #   include_role:
+  #     name: docker
+  #     tasks_from: ubuntu.yaml
+  #   when:
+  #     - docker_check.msg is defined
+  #   tags: ubuntu
+
   # Создание директории для хранения данных и конфигурации Jenkins.
   - name: Create Jenkins directory on Ubuntu
     file:
       state: directory
       path: "{{ item.path }}"
-      mode: "{{ ubuntu_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     with_items:
-      - { path: "{{ ubuntu_jenkins_data_dir }}" }
-      - { path: "{{ ubuntu_jenkins_config_dir }}" }
+      - { path: "{{ jenkins_data_dir }}" }
+      - { path: "{{ jenkins_config_dir }}" }
     tags: ubuntu
 
   # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
   - name: Copy docker files in directory jenkins_config on Ubuntu
     copy:
       src: files/
-      dest: "{{ ubuntu_jenkins_config_dir }}"
-      mode: "{{ ubuntu_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: ubuntu
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
   - name: Copy template jenkins.yaml in directory jenkins_config on Ubuntu
     template:
       src: templates/jenkins.yaml
-      dest: "{{ ubuntu_jenkins_config_dir }}/jenkins.yaml"
-      mode: "{{ ubuntu_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}/jenkins.yaml"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: ubuntu
 
   # Пул образа Jenkins с Docker Hub на удаленном хосте.
   - name: Pull the Jenkins docker image on Ubuntu from Docker Hub
     docker_image:
-      name: "{{ ubuntu_jenkins_image }}"
+      name: "{{ jenkins_image }}"
     tags: ubuntu
 
   # Запуск Docker-compose на удаленном хосте.
@@ -43,7 +59,7 @@
     docker_compose:
       build: yes
       files: jenkins-docker-compose.yaml
-      project_src: "{{ ubuntu_jenkins_config_dir }}"
+      project_src: "{{ jenkins_config_dir }}"
       recreate: always
     register: output
   - debug:
@@ -58,7 +74,7 @@
   #     images: yes
   #     verbose_output: yes
   #   register: image_info
-  #   tags: jenkins
+  #   tags: ubuntu
 
   # - name: Remove all unused images on Ubuntu
   #   docker_image:
@@ -66,4 +82,4 @@
   #     state: absent
   #   with_items: "{{ image_info.images | map(attribute='Id') | list }}"
   #   ignore_errors: true
-  #   tags: jenkins
+  #   tags: ubuntu

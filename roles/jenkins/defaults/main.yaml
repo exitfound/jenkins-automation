@@ -1,20 +1,16 @@
-# Переменные для конфигурации Jenkins на OpenSUSE:
+# Переменные, применимые ко всем дистрибутивам одинаково:
 
-opensuse_jenkins_data_dir: /opt/jenkins_data
-opensuse_jenkins_config_dir: /opt/jenkins_config
-opensuse_jenkins_mode_dir: u=rw,g=rw,o=r
-opensuse_jenkins_image: jenkins/jenkins:lts-jdk11
+jenkins_image: jenkins/jenkins:lts-jdk11
+jenkins_data_dir: /opt/jenkins_data
+jenkins_config_dir: /opt/jenkins_config
+jenkins_check_docker: docker --version
+jenkins_file_compose: jenkins-docker-compose.yaml
+jenkins_file_mode: "u=rw,g=r,o=r"
+jenkins_file_owner: "1000"
+jenkins_file_group: "1000"
+
+# Переменные для конфигурации Jenkins на OpenSUSE:
 
 # Переменные для конфигурации Jenkins на CentOS:
 
-centos_jenkins_data_dir: /opt/jenkins_data
-centos_jenkins_config_dir: /opt/jenkins_config
-centos_jenkins_mode_dir: u=rw,g=rw,o=r
-centos_jenkins_image: jenkins/jenkins:lts-jdk11
-
 # Переменные для конфигурации Jenkins на Ubuntu:
-
-ubuntu_jenkins_data_dir: /opt/jenkins_data
-ubuntu_jenkins_config_dir: /opt/jenkins_config
-ubuntu_jenkins_mode_dir: u=rw,g=rw,o=r
-ubuntu_jenkins_image: jenkins/jenkins:lts-jdk11

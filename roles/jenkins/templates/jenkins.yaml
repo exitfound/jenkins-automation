@@ -22,6 +22,6 @@ security:
     - global:
         strategy: triggeringUsersAuthorizationStrategy
 
-unclassified:
-  location:
-    url: "{{ jenkins_url }}"
+# unclassified:
+#   location:
+#     url: "jenkins_url"

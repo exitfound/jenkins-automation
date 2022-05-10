@@ -1,49 +1,64 @@
 ---
+  # # Проверка того, необходимо ли запустить роль Docker на дистрибутиве Centos 8.
+  # - name: Check if Docker is installed on Centos 8
+  #   command: systemctl status docker
+  #   register: docker_check
+  #   ignore_errors: true
+  #   tags: centos
+
+  # # Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на дистрибутиве Centos 8.
+  # - name: Installing Docker on Centos 8 before Jenkins
+  #   include_role:
+  #     name: docker
+  #     tasks_from: centos.yaml
+  #   when: docker_check.msg is defined
+  #   tags: centos
+
   # Создание директории для хранения данных и конфигурации Jenkins.
   - name: Create Jenkins directory on Centos 8
     file:
       state: directory
       path: "{{ item.path }}"
-      mode: "{{ centos_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     with_items:
-      - { path: "{{ centos_jenkins_data_dir }}" }
-      - { path: "{{ centos_jenkins_config_dir }}" }
+      - { path: "{{ jenkins_data_dir }}" }
+      - { path: "{{ jenkins_config_dir }}" }
     tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
   - name: Copy docker files in directory jenkins_config on Centos 8
     copy:
       src: files/
-      dest: "{{ centos_jenkins_config_dir }}"
-      mode: "{{ centos_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
   - name: Copy template jenkins.yaml in directory jenkins_config on CentOS
     template:
       src: templates/jenkins.yaml
-      dest: "{{ centos_jenkins_config_dir }}/jenkins.yaml"
-      mode: "{{ centos_jenkins_mode_dir }}"
-      owner: "1000"
-      group: "1000"
+      dest: "{{ jenkins_config_dir }}/jenkins.yaml"
+      mode: "{{ jenkins_file_mode }}"
+      owner: "{{ jenkins_file_owner }}"
+      group: "{{ jenkins_file_group }}"
     tags: centos
 
   # Пул образа Jenkins с Docker Hub на удаленном хосте.
   - name: Pull the Jenkins docker image from Docker Hub on Centos 8
     docker_image:
-      name: "{{ centos_jenkins_image }}"
+      name: "{{ jenkins_image }}"
     tags: centos
 
   # Запуск Docker-compose на удаленном хосте.
   - name: Run Jenkins via docker-compose on Centos 8
     docker_compose:
       build: yes
-      files: jenkins-docker-compose.yaml
-      project_src: "{{ centos_jenkins_config_dir }}"
+      files: "{{ jenkins_file_compose }}"
+      project_src: "{{ jenkins_config_dir }}"
       recreate: always
     register: output
   - debug:
@@ -58,7 +73,7 @@
   #     images: yes
   #     verbose_output: yes
   #   register: image_info
-  #   tags: jenkins
+  #   tags: centos
 
   # - name: Remove all unused images on CentOS 8
   #   docker_image:
@@ -66,4 +81,4 @@
   #     state: absent
   #   with_items: "{{ image_info.images | map(attribute='Id') | list }}"
   #   ignore_errors: true
-  #   tags: jenkins
+  #   tags: centos
