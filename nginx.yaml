@@ -1,0 +1,9 @@
+---
+# Вызов роли по установке Nginx на удаленном узле.
+- name: Configuring Nginx on remote host
+  gather_facts: yes
+  hosts: 
+    - all
+  roles:
+    - nginx
+  tags: nginx

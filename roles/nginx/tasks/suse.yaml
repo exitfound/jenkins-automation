@@ -1,0 +1,34 @@
+---
+  # Запуск сервиса nginx.service на дистрибутиве OpenSUSE.
+  - name: Start Nginx service on OpenSUSE
+    systemd:
+      name: nginx
+      state: started
+      enabled: yes
+    ignore_errors: true
+    tags: suse
+
+  # Передача конфигурационного файла Nginx для проксирования, при обращении к сайту Jenkins на дистрибутиве OpenSUSE.
+  - name: Copy nginx config for Jenkins site on OpenSUSE
+    template:
+      src: templates/nginx-with-ssl.conf.j2
+      dest: "/etc/nginx/conf.d/{{ jenkins_nginx_domain }}.conf"
+      mode: "{{ nginx_file_mode }}"
+      owner: "{{ nginx_file_owner }}"
+      group: "{{ nginx_file_group }}"
+    tags: suse
+
+  # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве OpenSUSE.
+  - name: Output of command nginx -t after changes
+    shell: nginx -t
+    register: command_output
+    tags: suse
+  - debug: msg="{{ command_output.stderr }}"
+
+  # Перезапуск сервиса nginx.service после изменений на дистрибутиве OpenSUSE.
+  - name: Reload nginx after changes on OpenSUSE
+    service: 
+      name: nginx 
+      state: restarted
+    ignore_errors: true
+    tags: suse

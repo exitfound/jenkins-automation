@@ -1,0 +1,49 @@
+---
+  # Включение https трафика на дистрибутиве Centos 8.
+  - name: Enable httpd trafic via SELinux on Centos 8
+    shell: setsebool -P httpd_can_network_connect 1
+    tags: centos
+
+  # Запуск сервиса nginx.service на дистрибутиве Centos 8.
+  - name: Start Nginx service on Centos 8
+    systemd:
+      name: nginx
+      state: started
+      enabled: yes
+    ignore_errors: true
+    tags: centos
+
+  # Передача конфигурационного файла Nginx для проксирования, при обращении к сайту Jenkins на дистрибутиве Centos 8.
+  - name: Copy nginx config for Jenkins site on Centos 8
+    template:
+      src: templates/nginx-with-ssl.conf.j2
+      dest: "/etc/nginx/conf.d/{{ jenkins_nginx_domain }}.conf"
+      mode: "{{ nginx_file_mode }}"
+      owner: "{{ nginx_file_owner }}"
+      group: "{{ nginx_file_group }}"
+    tags: centos
+
+  # Передача главного конфигурационного файла Nginx на дистрибутиве Centos 8.
+  - name: Copy main nginx config on Centos 8
+    copy:
+      src: files/nginx.conf
+      dest: "/etc/nginx/nginx.conf"
+      mode: "{{ nginx_file_mode }}"
+      owner: "{{ nginx_file_owner }}"
+      group: "{{ nginx_file_group }}"
+    tags: centos
+
+  # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве Centos 8.
+  - name: Output of command nginx -t after changes
+    shell: nginx -t
+    register: command_output
+    tags: centos
+  - debug: msg="{{ command_output.stderr }}"
+
+  # Перезапуск сервиса nginx.service после изменений на дистрибутиве Centos 8.
+  - name: Reload nginx after changes on Centos 8
+    service: 
+      name: nginx 
+      state: restarted
+    ignore_errors: true
+    tags: centos
