@@ -4,6 +4,7 @@ opensuse_packages_list:
   - python3-pip
   - curl
   - wget
+  - nginx
 opensuse_pip_list:
   - docker
   - docker-compose
@@ -17,6 +18,7 @@ centos_packages_list:
   - python3-pip
   - yum-utils
   - wget
+  - nginx
 centos_pip_list:
   - docker
   - docker-compose
@@ -27,6 +29,7 @@ ubuntu_packages_list:
   - python3-pip
   - curl
   - wget
+  - nginx
 ubuntu_pip_list:
   - docker
   - docker-compose
