@@ -1,4 +1,5 @@
 ---
+  # # Активация маршрутизации в системе, для сборки образа Docker (опционально, так как не всегда возникала ошибка)
   # - name: Active routing for build docker image on Centos 8
   #   shell: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
   #   tags: centos
@@ -22,6 +23,7 @@
     dnf: 
       name: docker-ce
       state: latest
+      update_cache: yes
     tags: centos
 
   # Запуск Docker на дистрибутиве CentOS 8.
@@ -32,7 +34,7 @@
       enabled: yes
     tags: centos
 
-  # Проверка того, запущен ли Docker в системе.
+  # Проверка того, был ли запущен docker.service на дистрибутиве CentOS 8.
   - name: Check if Docker is working now
     command: systemctl status docker
     register: command_output

@@ -4,6 +4,7 @@
     group:
       name: docker
       state: present
+    tags: ubuntu
 
   # Установка Docker на дистрибутиве Ubuntu.
   - name: Installing Docker on Ubuntu

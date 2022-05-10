@@ -3,14 +3,14 @@
 opensuse_compose_version: v2.5.0
 opensuse_compose_dest: /usr/bin/docker-compose
 
-# Переменные для установки Docker-compose на Ubuntu:
-
-ubuntu_compose_version: v2.5.0
-ubuntu_compose_dest: /usr/bin/docker-compose
-
 # Переменные для установки Docker/Docker-compose на CentOS 8:
 
 centos_docker_repo_url: https://download.docker.com/linux/centos/docker-ce.repo
 centos_docker_repo_dest: /etc/yum.repos.d/docer-ce.repo
 centos_compose_version: v2.5.0
 centos_compose_dest: /usr/bin/docker-compose
+
+# Переменные для установки Docker-compose на Ubuntu:
+
+ubuntu_compose_version: v2.5.0
+ubuntu_compose_dest: /usr/bin/docker-compose
