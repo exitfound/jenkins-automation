@@ -5,7 +5,7 @@
       name: '*'
       state: latest
       update_cache: yes
-    tags: suse
+    tags: update-suse
 
   # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages on OpenSUSE
@@ -13,10 +13,8 @@
       name: "{{ opensuse_packages_list }}"
       state: latest
       update_cache: yes
-    tags: suse
 
   # Установка пакетов pip из списка необходимых, которые определены в виде переменной, в директории defaults.
-  - name: Installing required package for pip on OpenSUSE
+  - name: Installing required packages for pip on OpenSUSE
     pip:
-      name: "{{ opensuse_pip_list }}"
-    tags: suse
+      name: "{{ pip_packages_list }}"

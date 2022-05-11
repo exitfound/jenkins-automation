@@ -1,3 +1,9 @@
+# Переменные, применимые ко всем дистрибутивам одинаково:
+
+pip_packages_list:
+  - docker
+  - docker-compose
+
 # Переменные для установки необходимых пакетов на OpenSUSE:
 
 opensuse_packages_list:
@@ -5,9 +11,6 @@ opensuse_packages_list:
   - curl
   - wget
   - nginx
-opensuse_pip_list:
-  - docker
-  - docker-compose
 
 # Переменные для установки необходимых пакетов на CentOS:
 
@@ -19,9 +22,6 @@ centos_packages_list:
   - yum-utils
   - wget
   - nginx
-centos_pip_list:
-  - docker
-  - docker-compose
 
 # Переменные для установки необходимых пакетов на Ubuntu:
 
@@ -30,6 +30,3 @@ ubuntu_packages_list:
   - curl
   - wget
   - nginx
-ubuntu_pip_list:
-  - docker
-  - docker-compose
