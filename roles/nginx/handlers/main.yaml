@@ -1,6 +1,6 @@
 ---
   # Выполнение хендлера, который вызывается при изменении конфигурационных файлов, во время выполнения роли nginx.
-  - name: Restart Nginx
+  - name: restart nginx
     service:
       name: nginx
       state: restarted
