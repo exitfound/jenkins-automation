@@ -1,7 +1,7 @@
 # Глобальные переменные для установки и настройки Jenkins:
 
-jenkins_url: http://suse.kitezh.one:8080/jenkins/
-jenkins_nginx_domain: 
-jenkins_nginx_email: 
-jenkins_gitlab_token: 
-jenkins_gitlab_url: https://gitlab.com/
+# jenkins_url: 
+# jenkins_nginx_domain: 
+# jenkins_nginx_email: 
+# jenkins_gitlab_token: 
+# jenkins_gitlab_url: 
