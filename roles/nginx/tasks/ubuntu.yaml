@@ -6,7 +6,6 @@
       state: started
       enabled: yes
     ignore_errors: true
-    tags: ubuntu
 
   # Передача конфигурационного файла Nginx для проксирования, при обращении к сайту Jenkins на дистрибутиве Ubuntu.
   - name: Copy nginx config for Jenkins site on Ubuntu
@@ -16,7 +15,7 @@
       mode: "{{ nginx_file_mode }}"
       owner: "{{ nginx_file_owner }}"
       group: "{{ nginx_file_group }}"
-    tags: ubuntu
+    notify: restart nginx
 
   # Создание симлинка из директории sites-available в директорию sites-enabled на дистрибутиве Ubuntu.
   - name: Setup nginx sites-available symlink
@@ -25,19 +24,10 @@
       dest: "/etc/nginx/sites-enabled/{{ jenkins_nginx_domain }}.conf"
       state: link 
       force: yes
-    tags: ubuntu
 
-  # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве Ubuntu.
-  - name: Output of command nginx -t after changes
-    shell: nginx -t
-    register: command_output
-    tags: ubuntu
-  - debug: msg="{{ command_output.stderr }}"
-
-  # Перезапуск сервиса nginx.service после изменений на дистрибутиве Ubuntu.
-  - name: Reload nginx after changes on Ubuntu
-    service: 
-      name: nginx 
-      state: restarted
-    ignore_errors: true
-    tags: ubuntu
+  # # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве Ubuntu.
+  # - name: Output of command nginx -t after changes
+  #   shell: nginx -t
+  #   register: command_output
+  #   ignore_errors: true
+  # - debug: msg="{{ command_output.stderr }}"

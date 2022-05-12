@@ -6,4 +6,3 @@
     - all
   roles:
     - nginx
-  tags: nginx
