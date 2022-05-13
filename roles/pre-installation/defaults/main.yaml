@@ -11,6 +11,8 @@ opensuse_packages_list:
   - curl
   - wget
   - nginx
+  - python3-certbot-nginx
+  - certbot
 
 # Переменные для установки необходимых пакетов на CentOS:
 
@@ -22,6 +24,8 @@ centos_packages_list:
   - yum-utils
   - wget
   - nginx
+  - python3-certbot-nginx
+  - certbot
 
 # Переменные для установки необходимых пакетов на Ubuntu:
 
@@ -30,3 +34,5 @@ ubuntu_packages_list:
   - curl
   - wget
   - nginx
+  - python3-certbot-nginx
+  - certbot
