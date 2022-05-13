@@ -14,7 +14,7 @@
       state: latest
       update_cache: yes
 
-  # Установка пакетов apt из списка необходимых, которые определены в виде переменной, в директории defaults.
+  # Установка пакетов pip из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages for pip on Ubuntu
     pip:
       name: "{{ pip_packages_list }}"

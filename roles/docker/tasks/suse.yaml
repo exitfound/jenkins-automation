@@ -4,7 +4,6 @@
     group:
       name: docker
       state: present
-    tags: suse
 
   # Установка Docker на дистрибутиве OpenSUSE.
   - name: Installing Docker on OpenSUSE
@@ -12,7 +11,6 @@
       name: docker
       state: latest
       update_cache: yes
-    tags: suse
 
   # Запуск сервиса Docker на дистрибутиве OpenSUSE.
   - name: Starting Docker service on OpenSUSE
@@ -20,7 +18,6 @@
       name: docker
       state: started
       enabled: yes
-    tags: suse
 
   # Проверка того, был ли запущен docker.service на дистрибутиве OpenSUSE.
   - name: Check if Docker is working now
@@ -28,14 +25,12 @@
     register: command_output
   - debug:
       var: command_output.stdout_lines
-    tags: suse
 
   # Проверка того, установлен ли Docker-compose на дистрибутиве OpenSUSE.
   - name: Check if Docker-compose is installed on OpenSUSE
     command: "{{ opensuse_compose_dest }} --version"
     register: docker_compose_check
     ignore_errors: true
-    tags: suse
 
   # Установка Docker-compose в случае его отсуствия на дистрибутиве OpenSUSE.
   - name: Installing docker-compose on OpenSUSE
@@ -47,4 +42,3 @@
     when:
       - docker_compose_check.msg is defined
       - docker_compose_check.msg.find('No such file or directory') != -1
-    tags: suse

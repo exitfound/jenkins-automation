@@ -9,22 +9,19 @@
     group:
       name: docker
       state: present
-    tags: centos
 
   # Добавление репозитория для последующей установки Docker на дистрибутиве CentOS 8.
   - name: Add Docker repository to Centos 8
     get_url:
       url: "{{ centos_docker_repo_url }}"
       dest: "{{ centos_docker_repo_dest }}"
-    tags: centos
 
   # Установка Docker на дистрибутиве CentOS 8.
   - name: Install Docker on Centos 8
     dnf: 
       name: docker-ce
-      state: latest
+      state: present
       update_cache: yes
-    tags: centos
 
   # Запуск Docker на дистрибутиве CentOS 8.
   - name: Start Docker service on Centos 8
@@ -32,7 +29,13 @@
       name: docker
       state: started
       enabled: yes
-    tags: centos
+
+  # Перезапуск Docker на дистрибутиве CentOS 8.
+  - name: Restart Docker service on Centos 8
+    service:
+      name: docker
+      state: restarted
+    ignore_errors: true
 
   # Проверка того, был ли запущен docker.service на дистрибутиве CentOS 8.
   - name: Check if Docker is working now
@@ -40,14 +43,12 @@
     register: command_output
   - debug:
       var: command_output.stdout_lines
-    tags: centos
 
   # Проверка того, установлен ли Docker-compose на дистрибутиве CentOS 8.
   - name: Check if Docker Compose is installed on Centos 8
     command: "{{ centos_compose_dest }} --version"
     register: docker_compose_check
     ignore_errors: true
-    tags: centos
 
   # Установка Docker-compose в случае его отсуствия на дистрибутиве CentOS 8.
   - name: Install docker-compose on Centos 8
@@ -59,4 +60,3 @@
     when:
       - docker_compose_check.msg is defined
       - docker_compose_check.msg.find('No such file or directory') != -1
-    tags: centos

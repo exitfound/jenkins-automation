@@ -6,4 +6,3 @@
     - all
   roles:
     - jenkins
-  tags: jenkins
