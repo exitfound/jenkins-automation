@@ -1,19 +1,4 @@
 ---
-  # # Проверка того, необходимо ли запустить роль Docker на дистрибутиве Centos 8.
-  # - name: Check if Docker is installed on Centos 8
-  #   command: systemctl status docker
-  #   register: docker_check
-  #   ignore_errors: true
-  #   tags: centos
-
-  # # Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на дистрибутиве Centos 8.
-  # - name: Installing Docker on Centos 8 before Jenkins
-  #   include_role:
-  #     name: docker
-  #     tasks_from: centos.yaml
-  #   when: docker_check.msg is defined
-  #   tags: centos
-
   # Создание директории для хранения данных и конфигурации Jenkins.
   - name: Create Jenkins directory on Centos 8
     file:
@@ -25,7 +10,6 @@
     with_items:
       - { path: "{{ jenkins_data_dir }}" }
       - { path: "{{ jenkins_config_dir }}" }
-    tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/files и их последующая передача в директорию jenkins_config.
   - name: Copy docker files in directory jenkins_config on Centos 8
@@ -35,7 +19,6 @@
       mode: "{{ jenkins_file_mode }}"
       owner: "{{ jenkins_file_owner }}"
       group: "{{ jenkins_file_group }}"
-    tags: centos
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
   - name: Copy template jenkins.yaml in directory jenkins_config on CentOS
@@ -45,13 +28,11 @@
       mode: "{{ jenkins_file_mode }}"
       owner: "{{ jenkins_file_owner }}"
       group: "{{ jenkins_file_group }}"
-    tags: centos
 
   # Пул образа Jenkins с Docker Hub на удаленном хосте.
   - name: Pull the Jenkins docker image from Docker Hub on Centos 8
     docker_image:
       name: "{{ jenkins_image }}"
-    tags: centos
 
   # Запуск Docker-compose на удаленном хосте.
   - name: Run Jenkins via docker-compose on Centos 8
@@ -63,7 +44,6 @@
     register: output
   - debug:
       var: output
-    tags: centos
 
   # Опциональные задачи: Дело в том, что при каждом прогоне через Ansible создается новый образ (если были изменения в Dockerfile), при этом старые не удаляются сами по себе.
   # Задачи, описанные ниже, решают данную проблему. Это было нужно мне, пока я занимался отладкой, но не факт, что понадобится вам.
@@ -73,7 +53,6 @@
   #     images: yes
   #     verbose_output: yes
   #   register: image_info
-  #   tags: centos
 
   # - name: Remove all unused images on CentOS 8
   #   docker_image:
@@ -81,4 +60,3 @@
   #     state: absent
   #   with_items: "{{ image_info.images | map(attribute='Id') | list }}"
   #   ignore_errors: true
-  #   tags: centos
