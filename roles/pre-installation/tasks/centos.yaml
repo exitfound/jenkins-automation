@@ -5,7 +5,9 @@
       name: '*'
       state: latest
       update_cache: yes
-    tags: update-centos
+    tags: 
+      - never
+      - update-centos
 
   # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages on Centos 8
