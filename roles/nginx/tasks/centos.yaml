@@ -11,31 +11,29 @@
       enabled: yes
     ignore_errors: true
 
+  # Замена основного конфигурационного файла Nginx на дистрибутиве Centos 8.
+  - name: Copy main nginx config on Centos 8
+    template:
+      src: templates/default-nginx-centos.conf.j2
+      dest: "/etc/nginx/nginx.conf"
+      mode: "{{ nginx_file_mode }}"
+      owner: "{{ nginx_file_owner }}"
+      group: "{{ nginx_file_group }}"
+    notify: restart nginx
+
   # Передача конфигурационного файла Nginx для проксирования, при обращении к сайту Jenkins на дистрибутиве Centos 8.
   - name: Copy nginx config for Jenkins site on Centos 8
     template:
-      src: templates/nginx-with-ssl.conf.j2
+      src: templates/jenkins-nginx-ssl.conf.j2
       dest: "/etc/nginx/conf.d/{{ jenkins_nginx_domain }}.conf"
       mode: "{{ nginx_file_mode }}"
       owner: "{{ nginx_file_owner }}"
       group: "{{ nginx_file_group }}"
     notify: restart nginx
 
-  # Удаление строки listen из конфигурационного файла nginx.conf на дистрибутиве Centos 8.
-  - name: Delete line "listen 80 default-server" from default config nginx.conf on Centos 8
-    lineinfile:
-      path: /etc/nginx/nginx.conf
-      regexp: "{{ item.From }}"
-      line: "{{ item.To }}"
-      state: present
-    with_items:
-      - { From: "listen", To: "#" }
-      - { From: "listen", To: "#" }
-    notify: restart nginx
-
-  # # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве Centos 8.
-  # - name: Output of command nginx -t after changes
-  #   shell: nginx -t
-  #   register: command_output
-  #   ignore_errors: true
-  # - debug: msg="{{ command_output.stderr }}"
+  # Выполнение команды nginx -t после добавления конфигурационного файла на дистрибутиве Centos 8.
+  - name: Output of command nginx -t after changes
+    shell: nginx -t
+    register: command_output
+    ignore_errors: true
+  - debug: msg="{{ command_output.stderr }}"
