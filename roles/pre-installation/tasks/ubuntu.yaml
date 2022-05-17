@@ -6,7 +6,6 @@
       state: latest
       update_cache: yes
     tags: 
-      - never
       - ubuntu-update
 
   # Установка пакетов apt из списка необходимых, которые определены в виде переменной, в директории defaults.

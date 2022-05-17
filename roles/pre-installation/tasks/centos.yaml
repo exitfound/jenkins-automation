@@ -6,7 +6,6 @@
       state: latest
       update_cache: yes
     tags: 
-      - never
       - centos-update
 
   # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
