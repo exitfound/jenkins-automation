@@ -1,8 +1,7 @@
 ---
   # # Активация маршрутизации в системе, для сборки образа Docker (опционально, так как не всегда возникала ошибка)
   # - name: Active routing for build docker image on Centos 8
-  #   shell: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
-  #   tags: centos
+  #   command: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
 
   # Создание группы docker на дистрибутиве Centos 8.
   - name: Ensure group "docker" exists on Centos 8
@@ -29,13 +28,6 @@
       name: docker
       state: started
       enabled: yes
-
-  # Перезапуск Docker на дистрибутиве CentOS 8.
-  - name: Restart Docker service on Centos 8
-    service:
-      name: docker
-      state: restarted
-    ignore_errors: true
 
   # Проверка того, был ли запущен docker.service на дистрибутиве CentOS 8.
   - name: Check if Docker is working now

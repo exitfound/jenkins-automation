@@ -9,7 +9,7 @@
   - name: Installing Docker on Ubuntu
     apt: 
       name: docker.io
-      state: latest
+      state: present
       update_cache: yes
 
   # Запуск сервиса Docker на дистрибутиве Ubuntu.
