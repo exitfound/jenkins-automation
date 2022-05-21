@@ -1,4 +1,11 @@
 ---
+  # Установка пакета Nginx на дистрибутиве OpenSUSE.
+  - name: Installing required packages on OpenSUSE
+    zypper: 
+      name: "{{ nginx_package }}"
+      state: present
+      update_cache: yes
+
   # Запуск сервиса nginx.service на дистрибутиве OpenSUSE.
   - name: Start Nginx service on OpenSUSE
     systemd:

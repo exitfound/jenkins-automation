@@ -1,4 +1,11 @@
 ---
+  # Установка пакета Nginx на дистрибутиве на дистрибутиве Ubuntu.
+  - name: Installing required packages on OpenSUSE
+    apt: 
+      name: "{{ nginx_package }}"
+      state: present
+      update_cache: yes
+
   # Запуск сервиса nginx.service на дистрибутиве Ubuntu.
   - name: Start Nginx service on Ubuntu
     systemd:

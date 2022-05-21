@@ -29,8 +29,8 @@ server {
 }
 
 server {
-    listen       80 default_server;
-    listen       [::]:80 default_server;
+    listen       80;
+    listen       [::]:80;
     server_name {{ jenkins_nginx_domain }} www.{{ jenkins_nginx_domain }};
     return 301 https://{{ jenkins_nginx_domain }}$request_uri;
 }

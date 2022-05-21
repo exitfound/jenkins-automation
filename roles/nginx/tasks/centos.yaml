@@ -1,7 +1,14 @@
 ---
-  # Включение https трафика на дистрибутиве Centos 8.
+  # Включение HTTPS трафика на дистрибутиве Centos 8.
   - name: Enable httpd trafic via SELinux on Centos 8
     shell: setsebool -P httpd_can_network_connect 1
+
+  # Установка пакета Nginx на дистрибутиве Centos 8.
+  - name: Installing required packages on OpenSUSE
+    dnf: 
+      name: "{{ nginx_package }}"
+      state: present
+      update_cache: yes
 
   # Запуск сервиса nginx.service на дистрибутиве Centos 8.
   - name: Start Nginx service on Centos 8
@@ -10,16 +17,6 @@
       state: started
       enabled: yes
     ignore_errors: true
-
-  # Замена основного конфигурационного файла Nginx на дистрибутиве Centos 8.
-  - name: Copy main nginx config on Centos 8
-    template:
-      src: templates/default-nginx-centos.conf.j2
-      dest: "/etc/nginx/nginx.conf"
-      mode: "{{ nginx_file_mode }}"
-      owner: "{{ nginx_file_owner }}"
-      group: "{{ nginx_file_group }}"
-    notify: restart nginx
 
   # Передача конфигурационного файла Nginx для проксирования, при обращении к сайту Jenkins на дистрибутиве Centos 8.
   - name: Copy nginx config for Jenkins site on Centos 8
