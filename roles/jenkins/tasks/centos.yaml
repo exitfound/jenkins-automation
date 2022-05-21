@@ -21,7 +21,7 @@
       group: "{{ jenkins_file_group }}"
 
   # Копирование файлов из директории ./roles/jenkins/templates и их последующая передача в директорию jenkins_config.
-  - name: Copy template jenkins.yaml in directory jenkins_config on CentOS
+  - name: Copy template jenkins.yaml in directory jenkins_config on Centos 8
     template:
       src: templates/jenkins.yaml
       dest: "{{ jenkins_config_dir }}/jenkins.yaml"
@@ -29,10 +29,11 @@
       owner: "{{ jenkins_file_owner }}"
       group: "{{ jenkins_file_group }}"
 
-  # Пул образа Jenkins с Docker Hub на удаленном хосте.
-  - name: Pull the Jenkins docker image from Docker Hub on Centos 8
-    docker_image:
-      name: "{{ jenkins_image }}"
+  # # Пул образа Jenkins с Docker Hub на удаленном хосте (устаревший вариант, совместим с весрией до 2.12).
+  # - name: Pull the Jenkins docker image from Docker Hub on Centos 8
+  #   docker_image:
+  #     name: "{{ jenkins_image }}"
+  #     source: pull
 
   # Запуск Docker-compose на удаленном хосте.
   - name: Run Jenkins via docker-compose on Centos 8

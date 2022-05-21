@@ -1,24 +1,4 @@
 ---
-# Вызов роли Pre-installation для последующей установки всех необходимых пакетов.
-- name: Running a role to install all required packages on remote host
-  include_role:
-    name: pre-installation
-    tasks_from: main.yaml
-
-# Проверка того, необходимо ли запустить роль Docker на удаленном узле.
-- name: Check if Docker is installed on remote host
-  command: "{{ jenkins_check_docker }}"
-  register: docker_check
-  ignore_errors: true
-
-# Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на удаленном узле.
-- name: Installing Docker on rmeote host before Jenkins
-  include_role:
-    name: docker
-    tasks_from: main.yaml
-  when:
-    - docker_check.failed
-
 # Вызов yaml файла для установки необходимых компонентов на дистрибутив семейства Debian.
 - include_tasks: ubuntu.yaml
   when: ansible_os_family == 'Debian'

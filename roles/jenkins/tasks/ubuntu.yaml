@@ -29,10 +29,11 @@
       owner: "{{ jenkins_file_owner }}"
       group: "{{ jenkins_file_group }}"
 
-  # Пул образа Jenkins с Docker Hub на удаленном хосте.
-  - name: Pull the Jenkins docker image on Ubuntu from Docker Hub
-    docker_image:
-      name: "{{ jenkins_image }}"
+  # # Пул образа Jenkins с Docker Hub на удаленном хосте (устаревший вариант, совместим с весрией до 2.12).
+  # - name: Pull the Jenkins docker image on Ubuntu from Docker Hub
+  #   docker_image:
+  #     name: "{{ jenkins_image }}"
+  #     source: pull
 
   # Запуск Docker-compose на удаленном хосте.
   - name: Run Jenkins via docker-compose on Ubuntu
