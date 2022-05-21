@@ -1,43 +1,8 @@
 ---
-  # Проверка того, был ли создан SSL-сертификат для запрашиваемого домена.
-  - name: Check if certificate already exists
-    stat:
-      path: /etc/letsencrypt/live/{{ jenkins_nginx_domain | first | replace('*.', '') }}/cert.pem
-    register: letsencrypt_cert
-
-  # Остановка сервиса nginx.service на удаленном узле, для конфигурирования SSL.
-  - name: Stop Nginx service on remote host
-    systemd:
-      name: nginx
-      state: stopped
-    ignore_errors: true
-    when: not letsencrypt_cert.stat.exists
-
-  # Создание сертификата для указанного домена, если таковой не был обнаружен.
-  - name: Generate new certificate if one doesn't exist
-    command: "{{ certbot_create_command }}"
-    when: not letsencrypt_cert.stat.exists
-
-  # Запуск сервиса certbot-renew.timer, для автоматического продления сертификата (OpenSUSE или Centos).
-  - name: Start certbot-renew.timer on remote host
-    systemd:
-      name: certbot-renew.timer
-      state: started
-      enabled: yes
+  # Вызов yaml файла для установки SSL-сертификата на дистрибутив семейства SUSE/RedHat.
+  - include_tasks: rpm.yaml
     when: (ansible_os_family == 'Suse') or (ansible_os_family == 'RedHat')
 
-  # Запуск сервиса certbot.timer, для автоматического продления сертификата (Ubuntu).
-  - name: Start certbot.timer on remote host
-    systemd:
-      name: certbot.timer
-      state: started
-      enabled: yes
+  # Вызов yaml файла для установки SSL-сертификата на дистрибутив семейства Debian.
+  - include_tasks: deb.yaml
     when: ansible_os_family == 'Debian'
-
-  # Запуск сервиса nginx.service на удаленном узле, после конфигурирования SSL.
-  - name: Start Nginx service on remote host
-    systemd:
-      name: nginx
-      state: started
-    ignore_errors: true
-    when: not letsencrypt_cert.stat.exists

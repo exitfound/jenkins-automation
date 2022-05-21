@@ -1,1 +1,15 @@
 ---
+# Переменные, применимые ко всем дистрибутивам одинаково:
+
+certbot_packages:
+  - certbot
+  - python3-certbot-nginx
+
+# Переменные для установки Docker-compose на OpenSUSE:
+
+opensuse_certbot_packages:
+  - certbot-systemd-timer
+
+# Переменные для установки Docker/Docker-compose на CentOS 8:
+
+# Переменные для установки Docker-compose на Ubuntu:

@@ -1,0 +1,41 @@
+---
+  # Установка пакета certbot со всеми зависимостями на удаленном узле.
+  - name: Installing required packages on remote host
+    package: 
+      name: "{{ certbot_packages }}"
+      state: present
+      update_cache: yes
+
+  # Проверка того, был ли создан SSL-сертификат для запрашиваемого домена на удаленном узле.
+  - name: Check if certificate already exists
+    stat:
+      path: /etc/letsencrypt/live/{{ jenkins_nginx_domain | first | replace('*.', '') }}/cert.pem
+    register: letsencrypt_cert
+
+  # Остановка сервиса nginx.service на удаленном узле, для конфигурирования SSL.
+  - name: Stop Nginx service on remote host
+    systemd:
+      name: nginx
+      state: stopped
+    ignore_errors: true
+    when: not letsencrypt_cert.stat.exists
+
+  # Создание сертификата для указанного домена, если таковой не был обнаружен на удаленном хосте.
+  - name: Generate new certificate if one doesn't exist
+    command: "{{ certbot_create_command }}"
+    when: not letsencrypt_cert.stat.exists
+
+  # Запуск сервиса certbot.timer, для отслеживания состояния сертификата.
+  - name: Start certbot.timer on remote host
+    systemd:
+      name: certbot.timer
+      state: started
+      enabled: yes
+
+  # Запуск сервиса nginx.service на удаленном узле, после конфигурирования SSL.
+  - name: Start Nginx service on remote host
+    systemd:
+      name: nginx
+      state: started
+    ignore_errors: true
+    when: not letsencrypt_cert.stat.exists
