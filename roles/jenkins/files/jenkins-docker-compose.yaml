@@ -9,9 +9,9 @@ services:
     user: "${UID}:${GID}"
     environment:
       JENKINS_USER: admin
-      JENKINS_PASS: Lekain1997
+      JENKINS_PASS: Kitezh1165
     ports:
-      - 8080:8080
+      - 127.0.0.1:8080:8080
       - 50000:50000
     volumes:
       - /opt/jenkins_config:/var/jenkins_config/

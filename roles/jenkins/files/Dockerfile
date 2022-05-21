@@ -6,7 +6,7 @@ USER root
 
 RUN mkdir -p /var/jenkins_config/ \
     && chown -R jenkins:jenkins /var/jenkins_home /var/jenkins_config \
-    && chmod -R 760 /var/jenkins_home /var/jenkins_config \
+    && chmod -R 700 /var/jenkins_home /var/jenkins_config \
     && apt-get update \
     && apt-get -y install \
         apt-utils \
