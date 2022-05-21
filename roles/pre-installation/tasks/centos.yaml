@@ -6,20 +6,27 @@
       state: latest
       update_cache: yes
     tags: 
-      - centos-update
+      - update
+
+  # - name: Check if rpm packages is installed
+  #   command: rpm -q {{ item }}
+  #   loop: "{{ centos_packages_list }}"
+  #   register: rpm_check
+  #   ignore_errors: true
 
   # Установка пакетов rpm из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages on Centos 8
     dnf: 
       name: "{{ centos_packages_list }}"
-      state: latest
+      state: present
       update_cache: yes
+#    when: rpm_check is failed
 
   # Установка пакетов pip из списка необходимых, которые определены в виде переменной, в директории defaults.
   - name: Installing required packages for pip on Centos 8
     pip:
       name: "{{ pip_packages_list }}"
-      state: latest
+      state: present
 
   # Добавление автодополнения для удобной работы.
   - name: Activate autocomplete bash on Centos 8

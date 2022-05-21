@@ -7,14 +7,12 @@ pip_packages_list:
 # Переменные для установки необходимых пакетов на OpenSUSE:
 
 opensuse_packages_list:
+  - bash-completion
   - python3-pip
   - curl
   - wget
-  - nginx
-  - python3-certbot-nginx
-  - certbot
 
-# Переменные для установки необходимых пакетов на CentOS:
+# Переменные для установки необходимых пакетов на Centos 8:
 
 centos_packages_list:
   - bash-completion
@@ -23,16 +21,11 @@ centos_packages_list:
   - python3-pip
   - yum-utils
   - wget
-  - nginx
-  - python3-certbot-nginx
-  - certbot
 
 # Переменные для установки необходимых пакетов на Ubuntu:
 
 ubuntu_packages_list:
+  - bash-completion
   - python3-pip
   - curl
   - wget
-  - nginx
-  - python3-certbot-nginx
-  - certbot
