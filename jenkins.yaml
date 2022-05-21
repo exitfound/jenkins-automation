@@ -1,8 +1,31 @@
 ---
-# Вызов роли по установке Jenkins на удаленном узле.
+# Вызов нескольких ролей для запуска и настройки Jenkins через Docker на удаленном узле.
 - name: Installing and configuring Jenkins on remote host
   gather_facts: yes
+  become: yes
   hosts: 
     - all
+
+  pre_tasks:
+    # Вызов роли Pre-installation для последующей установки всех необходимых пакетов.
+    - name: Running a role to install all required packages on remote host
+      include_role:
+        name: pre-installation
+        tasks_from: main.yaml
+
+    # Проверка того, необходимо ли запустить роль Docker на удаленном узле.
+    - name: Check if Docker is installed on remote host
+      command: "{{ jenkins_check_docker }}"
+      register: docker_check
+      ignore_errors: true
+
+    # Вызов роли Docker для установки, со всеми необходимыми компонентами, для последующего запуска Jenkins на удаленном узле.
+    - name: Installing Docker on remote host, before Jenkins
+      include_role:
+        name: docker
+        tasks_from: main.yaml
+      when:
+        - docker_check.failed
+
   roles:
     - jenkins
