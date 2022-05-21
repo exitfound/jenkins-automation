@@ -1,27 +1,15 @@
-[first-suse]
-opensuse15.3    ansible_host=suse.kitezh.one
-
-[first-suse:vars]
-jenkins_nginx_domain=suse.kitezh.one
-
-[second-suse]
-opensuse15.31    ansible_host=secondsuse.kitezh.one
-
-[second-suse:vars]
-jenkins_nginx_domain=secondsuse.kitezh.one
-
 [opensuse:children]
 first-suse
 second-suse
 
-[centos]
-centos8         ansible_host=centos.kitezh.one
+[first-suse]
+opensuse15.3    ansible_host=<your_host> jenkins_nginx_domain=<your_domain_name>
 
-[centos:vars]
-jenkins_nginx_domain=centos.kitezh.one
+[second-suse]
+opensuse15.2    ansible_host=<your_host> jenkins_nginx_domain=<your_domain_name>
+
+[centos]
+centos-8         ansible_host=<your_host> jenkins_nginx_domain=<your_domain_name>
 
 [ubuntu]
-ubuntu20        ansible_host=ubuntu.kitezh.one
-
-[ubuntu:vars]
-jenkins_nginx_domain=ubuntu.kitezh.one
+ubuntu-20        ansible_host=<your_host> jenkins_nginx_domain=<your_domain_name>
