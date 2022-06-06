@@ -1,7 +1,7 @@
 ---
-  # # Активация маршрутизации в системе, для сборки образа Docker (опционально, так как не всегда возникала ошибка)
-  # - name: Active routing for build docker image on Centos 8
-  #   command: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
+  # Активация маршрутизации в системе, для сборки образа Docker (опционально, так как не всегда возникала ошибка)
+  - name: Active routing for build docker image on Centos 8
+    command: echo net.ipv4.ip_forward=1 > /etc/sysctl.conf
 
   # Создание группы docker на дистрибутиве Centos 8.
   - name: Ensure group "docker" exists on Centos 8
