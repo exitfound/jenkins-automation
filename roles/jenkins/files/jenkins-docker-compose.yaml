@@ -12,10 +12,9 @@ services:
       JENKINS_PASS: Kitezh1165
     ports:
       - 127.0.0.1:8080:8080
-      - 50000:50000
     volumes:
-      - /opt/jenkins_config:/var/jenkins_config/
-      - /opt/jenkins_data:/var/jenkins_home
+      - /opt/jenkins_config:/var/jenkins_config:Z
+      - /opt/jenkins_data:/var/jenkins_home:Z
     networks:
       - jenkins
     restart: always
