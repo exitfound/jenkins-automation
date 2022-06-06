@@ -10,8 +10,6 @@ RUN mkdir -p /var/jenkins_config/ \
     && apt-get update \
     && apt-get -y install \
         apt-utils \
-        vim \
-        curl \
         net-tools \
         iproute2 \
     && apt-get clean \
